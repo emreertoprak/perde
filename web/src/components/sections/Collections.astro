@@ -1,0 +1,174 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { sectionAnchors } from '../../i18n/routes';
+import type { Locale } from '../../i18n/ui';
+import { t } from '../../i18n/utils';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+const items = (await getCollection('collections')).sort((a, b) => a.data.order - b.data.order);
+const total = String(items.length).padStart(2, '0');
+---
+
+<section id={sectionAnchors.collections[locale]} class="collections">
+  <div class="shell collections__intro">
+    <SectionHeading eyebrow={copy.collections.eyebrow} title={copy.collections.title} />
+    <p class="collections__lead" data-reveal="fade">
+      {copy.collections.body}
+    </p>
+  </div>
+
+  <div class="collections__viewport" data-collections-viewport>
+    <div class="collections__sticky">
+      <ul class="collections__track" data-collections-track>
+        {items.map((item, index) => (
+          <li class="card" data-collection-card>
+            <div class="card__media">
+              <Image
+                src={item.data.cover}
+                alt={item.data.name[locale]}
+                widths={[400, 600, 800, 1000]}
+                sizes="(min-width: 1024px) 30vw, 78vw"
+                loading={index < 2 ? 'eager' : 'lazy'}
+                class="card__image"
+              />
+            </div>
+            <div class="card__meta">
+              <span class="card__index">
+                {String(index + 1).padStart(2, '0')} / {total}
+              </span>
+              <h3 class="card__title">{item.data.name[locale]}</h3>
+              <p class="card__text">{item.data.description[locale]}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/collections';
+</script>
+
+<style>
+  .collections {
+    padding-top: var(--spacing-section);
+    background-color: var(--color-cream);
+  }
+
+  .collections__intro {
+    display: grid;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: end;
+  }
+
+  @media (min-width: 1024px) {
+    .collections__intro {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+  }
+
+  .collections__lead {
+    max-width: 44ch;
+    font-size: var(--text-lead);
+    color: var(--color-charcoal-soft);
+  }
+
+  .collections__viewport {
+    margin-top: clamp(3rem, 7vw, 6rem);
+    padding-bottom: var(--spacing-section);
+  }
+
+  .collections__track {
+    display: flex;
+    gap: clamp(1.25rem, 2.5vw, 2.5rem);
+    padding-inline: var(--spacing-gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--spacing-gutter);
+    scrollbar-width: none;
+    will-change: transform;
+  }
+
+  .collections__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    flex: 0 0 auto;
+    width: min(78vw, 22rem);
+    scroll-snap-align: start;
+  }
+
+  .card__media {
+    overflow: hidden;
+    background-color: var(--color-sand);
+  }
+
+  .card__image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: transform 900ms var(--ease-editorial);
+    will-change: transform;
+  }
+
+  .card:hover .card__image {
+    transform: scale(1.045);
+  }
+
+  .card__meta {
+    padding-top: 1.5rem;
+  }
+
+  .card__index {
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    color: var(--color-charcoal-soft);
+  }
+
+  .card__title {
+    margin-top: 0.75rem;
+    font-size: var(--text-h3);
+  }
+
+  .card__text {
+    margin-top: 0.75rem;
+    max-width: 34ch;
+    color: var(--color-charcoal-soft);
+  }
+
+  /* Desktop: dikey scroll yatay harekete donusur */
+  @media (min-width: 1024px) and (pointer: fine) {
+    .collections__viewport[data-pinned] {
+      height: var(--viewport-height, auto);
+      padding-bottom: 0;
+    }
+
+    .collections__viewport[data-pinned] .collections__sticky {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      height: 100svh;
+      overflow: hidden;
+    }
+
+    .collections__viewport[data-pinned] .collections__track {
+      overflow-x: visible;
+      scroll-snap-type: none;
+    }
+
+    .card {
+      width: clamp(20rem, 26vw, 27rem);
+    }
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+import { whyUs } from '../../data/why-us';
+import type { Locale } from '../../i18n/ui';
+import { t } from '../../i18n/utils';
+import LineIcon from '../ui/LineIcon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+---
+
+<section class="why">
+  <div class="shell">
+    <SectionHeading
+      eyebrow={copy.whyUs.eyebrow}
+      title={copy.whyUs.title}
+      titleClass="text-h2 mt-8 max-w-[22ch]"
+    />
+
+    <ul class="why__list" data-stagger>
+      {whyUs.map((item, index) => (
+        <li class="why__item" data-reveal="fade">
+          <span class="why__index">{String(index + 1).padStart(2, '0')}</span>
+          <LineIcon name={item.icon} class="why__icon" />
+          <h3 class="why__title">{item.title[locale]}</h3>
+          <p class="why__body">{item.body[locale]}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .why {
+    padding-block: var(--spacing-section);
+    background-color: var(--color-ivory);
+  }
+
+  .why__list {
+    margin-top: clamp(3rem, 7vw, 6rem);
+    display: grid;
+    gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .why__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .why__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .why__item {
+    padding: clamp(2rem, 3vw, 2.75rem) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-taupe) 42%, transparent);
+  }
+
+  @media (min-width: 768px) {
+    .why__item {
+      padding-inline: clamp(1.5rem, 2.5vw, 2.5rem);
+      padding-inline-start: 0;
+      border-inline-end: 1px solid color-mix(in srgb, var(--color-taupe) 42%, transparent);
+    }
+
+    .why__item:last-child {
+      border-inline-end: 0;
+    }
+  }
+
+  .why__index {
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    color: var(--color-charcoal-soft);
+  }
+
+  .why__icon {
+    margin-top: 2rem;
+    color: var(--color-burgundy);
+  }
+
+  .why__title {
+    margin-top: 1.5rem;
+    font-size: var(--text-h3);
+  }
+
+  .why__body {
+    margin-top: 0.875rem;
+    max-width: 32ch;
+    color: var(--color-charcoal-soft);
+  }
+</style>

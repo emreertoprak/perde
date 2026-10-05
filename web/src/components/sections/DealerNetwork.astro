@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import { site } from '../../data/site';
+import { sectionAnchors } from '../../i18n/routes';
+import type { Locale } from '../../i18n/ui';
+import { collator, t } from '../../i18n/utils';
+import { applyStatsOverride, computeStats } from '../../lib/dealers/stats';
+import DealerFinder, { type CityOption } from '../islands/dealer-finder/DealerFinder.tsx';
+import SectionHeading from '../ui/SectionHeading.astro';
+import TurkeyMap from './TurkeyMap.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+
+const dealers = (await getCollection('dealers')).map((entry) => entry.data);
+
+const stats = applyStatsOverride(computeStats(dealers), site.statsOverride);
+const numberFormat = new Intl.NumberFormat(locale);
+
+const dealerCounts: Record<number, number> = {};
+const cityMap = new Map<number, CityOption>();
+
+for (const dealer of dealers) {
+  dealerCounts[dealer.plate] = (dealerCounts[dealer.plate] ?? 0) + 1;
+
+  let city = cityMap.get(dealer.plate);
+  if (!city) {
+    city = { plate: dealer.plate, name: dealer.city, slug: dealer.citySlug, districts: [] };
+    cityMap.set(dealer.plate, city);
+  }
+  if (!city.districts.some((district) => district.slug === dealer.districtSlug)) {
+    city.districts.push({ name: dealer.district, slug: dealer.districtSlug });
+  }
+}
+
+const cities = [...cityMap.values()].sort((a, b) => collator.compare(a.name, b.name));
+for (const city of cities) {
+  city.districts.sort((a, b) => collator.compare(a.name, b.name));
+}
+
+const statItems = [
+  { value: stats.cities, label: copy.dealers.statCities },
+  { value: stats.districts, label: copy.dealers.statDistricts },
+  { value: stats.dealers, label: copy.dealers.statDealers },
+];
+
+const finderDict = {
+  cityLabel: copy.dealers.cityLabel,
+  cityPlaceholder: copy.dealers.cityPlaceholder,
+  districtLabel: copy.dealers.districtLabel,
+  districtPlaceholder: copy.dealers.districtPlaceholder,
+  locateButton: copy.dealers.locateButton,
+  locating: copy.dealers.locating,
+  locateError: copy.dealers.locateError,
+  locateUnsupported: copy.dealers.locateUnsupported,
+  nearestTitle: copy.dealers.nearestTitle,
+  resultsEmpty: copy.dealers.resultsEmpty,
+  resultsCount: copy.dealers.resultsCount,
+  loading: copy.dealers.loading,
+  call: copy.dealers.call,
+  whatsapp: copy.dealers.whatsapp,
+  directions: copy.dealers.directions,
+  showroom: copy.dealers.showroom,
+  distance: copy.dealers.distance,
+};
+---
+
+<section id={sectionAnchors.dealers[locale]} class="dealers">
+  <div class="shell">
+    <SectionHeading
+      eyebrow={copy.dealers.eyebrow}
+      title={copy.dealers.title}
+      lead={copy.dealers.body}
+    />
+
+    <ul class="stats" data-stagger>
+      {statItems.map((item) => (
+        <li class="stat" data-reveal="fade">
+          <span class="stat__value">{numberFormat.format(item.value)}</span>
+          <span class="stat__label">{item.label}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="dealers__layout">
+      <div class="dealers__map" data-reveal="fade">
+        <TurkeyMap
+          dealerCounts={dealerCounts}
+          label={copy.dealers.title}
+          hint={copy.dealers.mapHint}
+        />
+      </div>
+
+      <div class="dealers__finder" data-reveal="fade">
+        <DealerFinder client:visible={{ rootMargin: '400px' }} cities={cities} dict={finderDict} />
+      </div>
+    </div>
+  </div>
+</section>

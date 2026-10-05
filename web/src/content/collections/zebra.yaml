@@ -1,0 +1,9 @@
+order: 4
+category: zebra
+cover: ../../assets/images/collections/zebra.jpg
+name:
+  tr: 'Zebra Perdeler'
+  en: 'Zebra Blinds'
+description:
+  tr: 'Şeffaf ve opak bantlarla ışığı kademe kademe ayarlayın.'
+  en: 'Alternating sheer and opaque bands for graded light.'

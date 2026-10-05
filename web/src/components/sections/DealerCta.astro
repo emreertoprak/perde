@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import ctaImage from '../../assets/images/cta/cta-interior.jpg';
+import type { Locale } from '../../i18n/ui';
+import { anchor, t } from '../../i18n/utils';
+import RevealText from '../ui/RevealText.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+---
+
+<section class="cta">
+  <Image
+    src={ctaImage}
+    alt={copy.cta.imageAlt}
+    widths={[768, 1200, 1600, 2000, 2520]}
+    sizes="100vw"
+    loading="lazy"
+    class="cta__image"
+  />
+  <div class="cta__scrim" aria-hidden="true"></div>
+
+  <div class="shell cta__content">
+    <RevealText as="h2" text={copy.cta.title} class="cta__title" />
+    <p class="cta__body" data-reveal="fade">
+      {copy.cta.body}
+    </p>
+    <a
+      class="btn btn-primary cta__button"
+      href={anchor(locale, 'dealers')}
+      data-cta="dealer-finder"
+    >
+      {copy.cta.button}
+    </a>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: min(80svh, 44rem);
+    overflow: hidden;
+    color: var(--color-ivory);
+    isolation: isolate;
+  }
+
+  .cta__image {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cta__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(to top, rgb(26 22 19 / 0.78), rgb(26 22 19 / 0.38));
+  }
+
+  .cta__content {
+    text-align: center;
+    padding-block: clamp(5rem, 12vw, 8rem);
+  }
+
+  .cta__title {
+    margin-inline: auto;
+    max-width: 18ch;
+    font-size: var(--text-h2);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+  }
+
+  .cta__body {
+    margin: clamp(1.5rem, 3vw, 2.25rem) auto 0;
+    max-width: 46ch;
+    font-size: var(--text-lead);
+    color: color-mix(in srgb, var(--color-ivory) 82%, transparent);
+  }
+
+  .cta__button {
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+</style>

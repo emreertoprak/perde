@@ -1,0 +1,165 @@
+---
+import { getCollection } from 'astro:content';
+import { PUBLIC_PORTAL_URL } from 'astro:env/client';
+import { site } from '../../data/site';
+import { LEGAL_KEYS, SECTION_KEYS, sectionAnchors } from '../../i18n/routes';
+import type { Locale } from '../../i18n/ui';
+import { anchor, legalPath, t } from '../../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+const year = new Date().getFullYear();
+
+const collections = (await getCollection('collections')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const corporateLinks = SECTION_KEYS.filter((key) => key !== 'contact').map((key) => ({
+  href: anchor(locale, key),
+  label: copy.nav[key],
+}));
+
+const legalLabels: Record<(typeof LEGAL_KEYS)[number], string> = {
+  kvkk: copy.footer.kvkk,
+  privacy: copy.footer.privacy,
+  cookies: copy.footer.cookies,
+};
+---
+
+<footer id={sectionAnchors.contact[locale]} class="footer">
+  <div class="shell grid gap-14 py-section md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+    <div>
+      <p class="wordmark">{site.brand.name}</p>
+      <p class="mt-6 max-w-[26ch] text-lg leading-relaxed text-stone">{copy.footer.tagline}</p>
+      <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-3">
+        {site.social.map((item) => (
+          <li>
+            <a class="footer-link" href={item.url} rel="noopener noreferrer" target="_blank">
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <nav aria-label={copy.footer.company}>
+      <h2 class="footer-heading">{copy.footer.company}</h2>
+      <ul class="mt-6 space-y-3">
+        {corporateLinks.map((link) => (
+          <li>
+            <a class="footer-link" href={link.href}>
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-label={copy.footer.collections}>
+      <h2 class="footer-heading">{copy.footer.collections}</h2>
+      <ul class="mt-6 space-y-3">
+        {collections.map((item) => (
+          <li>
+            <a class="footer-link" href={anchor(locale, 'collections')}>
+              {item.data.name[locale]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="footer-heading">{copy.footer.contact}</h2>
+      <address class="mt-6 space-y-3 not-italic text-stone">
+        <p>{site.contact.address.street}</p>
+        <p>
+          {site.contact.address.district} / {site.contact.address.city}
+        </p>
+        <p>
+          <a class="footer-link" href={`tel:${site.contact.phone}`}>
+            {site.contact.phoneDisplay}
+          </a>
+        </p>
+        <p>
+          <a class="footer-link" href={`mailto:${site.contact.email}`}>
+            {site.contact.email}
+          </a>
+        </p>
+      </address>
+
+      <h2 class="footer-heading mt-10">{copy.footer.legal}</h2>
+      <ul class="mt-6 space-y-3">
+        {LEGAL_KEYS.map((key) => (
+          <li>
+            <a class="footer-link" href={legalPath(locale, key)}>
+              {legalLabels[key]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="shell flex flex-wrap items-center justify-between gap-4 py-7">
+      <p class="text-xs tracking-wide text-stone">
+        © {year} {site.brand.name}. {copy.footer.rights}
+      </p>
+      <a class="dealer-login" href={PUBLIC_PORTAL_URL} rel="noopener">
+        {copy.footer.dealerLogin}
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-brown);
+    color: var(--color-ivory);
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+  }
+
+  .footer-heading {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-gold-light);
+  }
+
+  .footer-link {
+    color: var(--color-stone);
+    transition: color 300ms var(--ease-editorial);
+  }
+
+  .footer-link:hover {
+    color: var(--color-ivory);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid color-mix(in srgb, var(--color-stone) 22%, transparent);
+  }
+
+  .dealer-login {
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-stone) 75%, transparent);
+    transition: color 300ms var(--ease-editorial);
+  }
+
+  .dealer-login:hover {
+    color: var(--color-gold-light);
+  }
+</style>

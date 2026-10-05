@@ -1,0 +1,222 @@
+[
+  {
+    "file": "src/assets/images/hero/hero-interior.jpg",
+    "slot": "HERO INTERIOR 16:9",
+    "width": 2400,
+    "height": 1350,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Use case: photorealistic-natural. Create one premium curtain brand website hero photograph, landscape 16:9. Quiet contemporary Turkish Mediterranean living room, full-height windows with exquisitely detailed ivory sheer curtains and warm taupe linen drapery framing both sides, pale travertine floor, low cream sofa, walnut accent, warm natural morning light filtering through real woven fabric. Architectural editorial photography, restrained warm cream stone sand and cocoa palette, tactile believable materials, subtle film grain, elegant lived-in realism, no CGI look. Wide composition with calm uncluttered central area for website heading overlay; curtains are the main subject. No people, text, logos, watermark. Output a single photo.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/story/fabric-macro.jpg",
+    "slot": "FABRIC MACRO 4:5",
+    "width": 1600,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 4:5 extreme close-up of premium oatmeal linen curtain fabric in soft sculptural folds, clearly visible irregular woven fibers, side sunlight, entirely textile filling frame.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/collections/tul.jpg",
+    "slot": "TUL 4:5",
+    "width": 1600,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 4:5 product editorial of floor-to-ceiling ivory sheer voile curtains, delicate translucent folds with daylight passing through, window dominant, tiny glimpse of stone floor and cream armchair.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/collections/fon.jpg",
+    "slot": "FON 4:5",
+    "width": 1600,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 4:5 product editorial of thick warm cocoa taupe linen decorative drapes with precise full-length pinch pleats framing a narrow ivory sheer window, fabric dominant.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/collections/blackout.jpg",
+    "slot": "BLACKOUT 4:5",
+    "width": 1600,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 4:5 product editorial of closed opaque mushroom taupe blackout curtains in a restful bedroom, no light transmitting through the dense fabric, slim daylight at side edge, sliver of bed at lower corner.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/collections/zebra.jpg",
+    "slot": "ZEBRA 4:5",
+    "width": 1600,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 4:5 product editorial of a correctly constructed dual-layer zebra roller blind, crisp alternating horizontal warm ivory opaque and transparent mesh bands across one tall window, slim cassette top, minimalist warm interior.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/collections/stor.jpg",
+    "slot": "STOR 4:5",
+    "width": 1600,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 4:5 product editorial of a plain natural oatmeal roller shade lowered three quarters over a tall window, single continuous flat woven fabric with clean straight weighted bottom rail, warm minimalist interior. No horizontal stripes.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/collections/dikey.jpg",
+    "slot": "DIKEY 4:5",
+    "width": 1600,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 4:5 product editorial of vertical fabric blinds covering full height glazing, many straight evenly spaced warm ivory vertical slats gently rotated to admit narrow shafts of daylight, refined warm contemporary interior.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/collections/premium-kumas.jpg",
+    "slot": "PREMIUM 4:5",
+    "width": 1600,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 4:5 tactile product still life of premium curtain textiles draped over a travertine plinth, ivory linen, warm taupe silk and small cocoa velvet fold, exquisite fibers and soft sheen, no sample labels.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/fabric/light-1.jpg",
+    "slot": "LIGHT 3:4",
+    "width": 1500,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 3:4 poetic close-up of backlit ivory sheer curtain billowing slightly beside an open window, sunlight illuminating translucent weave and soft vertical folds.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/fabric/light-2.jpg",
+    "slot": "WEAVE 1:1",
+    "width": 1600,
+    "height": 1600,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Square 1:1 extreme macro of warm ivory curtain linen weave, individual intersecting threads and tiny natural slubs, grazing soft light, textile fills entire frame.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/fabric/light-3.jpg",
+    "slot": "LIGHT 16:9",
+    "width": 2400,
+    "height": 1350,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Landscape 16:9 poetic editorial of afternoon sunlight passing through ivory floor-length sheers, elongated soft window shadows across pale travertine floor, cropped room with curtain and light as main subjects.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/inspiration/salon.jpg",
+    "slot": "SALON 3:4",
+    "width": 1500,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 3:4 elegant high-ceiling formal living room with tall ivory sheer curtains and taupe outer drapes as focal point, cream curved sofa and walnut coffee table, sunlit restrained architecture.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/inspiration/yatak-odasi.jpg",
+    "slot": "BEDROOM 4:3",
+    "width": 2000,
+    "height": 1500,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Landscape 4:3 tranquil bedroom, layered ivory sheers and dense taupe blackout curtains on wide tall window, linen upholstered bed and walnut bedside table, soft morning light.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/inspiration/otel-lobi.jpg",
+    "slot": "HOTEL 4:3",
+    "width": 2000,
+    "height": 1500,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Landscape 4:3 sophisticated boutique hotel lobby, double-height sand linen drapes and ivory sheers over tall glazing, travertine walls and low cream lounge chairs, expansive calm natural light.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/inspiration/yemek-odasi.jpg",
+    "slot": "DINING 1:1",
+    "width": 1600,
+    "height": 1600,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Square 1:1 warm dining room with oval walnut dining table, four understated chairs, full-height ivory linen curtains over garden-facing window, natural daylight and restrained ceramic vase.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/inspiration/calisma-odasi.jpg",
+    "slot": "STUDY 3:4",
+    "width": 1500,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 3:4 refined home study with walnut desk and a plain oatmeal roller blind filtering light from tall window, restrained shelves, warm cream plaster walls, curtain treatment prominent.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/inspiration/oturma-odasi.jpg",
+    "slot": "LIVING 4:3",
+    "width": 2000,
+    "height": 1500,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Landscape 4:3 intimate contemporary sitting room with ivory wave-header sheers and warm sand drapes, low oatmeal sofa, cocoa accent cushion, pale stone side table, late afternoon light.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/inspiration/banyo.jpg",
+    "slot": "BATH 1:1",
+    "width": 1600,
+    "height": 1600,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Square 1:1 refined travertine bathroom with a privacy roller shade in ivory moisture-resistant fabric on window, freestanding oval tub, warm daylight, discreet brass fixtures, no shower curtain.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/inspiration/teras.jpg",
+    "slot": "TERRACE 3:4",
+    "width": 1500,
+    "height": 2000,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Portrait 3:4 covered Mediterranean terrace with flowing outdoor ivory curtains hanging naturally from pergola, cream stone floor, restrained woven lounge chair, muted olive tree and warm coastal light.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "src/assets/images/cta/cta-interior.jpg",
+    "slot": "CTA INTERIOR 21:9",
+    "width": 2520,
+    "height": 1080,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Ultra-wide landscape 21:9 luxurious curtain showroom-like living space, tall layered ivory sheers and warm taupe drapes, pale sculptural chair on right and travertine floor, central and left areas uncluttered for website heading overlay.",
+    "generatedAt": "2026-09-17"
+  },
+  {
+    "file": "public/og/og-default.jpg",
+    "slot": "OG 1200x630",
+    "width": 1200,
+    "height": 630,
+    "source": "openai-imagegen",
+    "model": "GPT Image (built-in image_gen)",
+    "prompt": "Architectural editorial photography for a premium Turkish curtain brand. Consistent warm cream, ivory, sand, taupe, walnut and pale travertine palette, softly diffused natural daylight, tactile real woven fabric, restrained sophisticated contemporary Mediterranean interiors, believable construction, subtle film grain. No people, text, letters, logos or watermark. Single photograph, never collage, no CGI look. Landscape 1200:630 social preview photograph of a refined contemporary living room showcasing ivory sheer curtains and warm taupe linen drapery, cream sofa and travertine, strong clear composition readable as thumbnail. No text.",
+    "generatedAt": "2026-09-17"
+  }
+]

@@ -1,0 +1,21 @@
+---
+/** Metni build sirasinda kelimelere boler; okuyucular tam metni aria-label'dan alir. */
+interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'h3' | 'p' | 'blockquote';
+  class?: string | undefined;
+}
+
+const { text, as: Tag = 'p', class: className = '' } = Astro.props;
+const words = text.split(/\s+/).filter(Boolean);
+---
+
+<Tag class={className} data-reveal="words" aria-label={text}>
+  {words.map((word) => (
+    <Fragment>
+      <span class="word" aria-hidden="true">
+        {word}
+      </span>{' '}
+    </Fragment>
+  ))}
+</Tag>

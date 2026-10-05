@@ -1,0 +1,293 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../../assets/images/hero/hero-interior.jpg';
+import HeroCurtain from '../islands/hero-curtain/HeroCurtain.tsx';
+import type { Locale } from '../../i18n/ui';
+import { anchor, t } from '../../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+---
+
+<section class="hero" data-hero>
+  <div class="hero__sticky">
+    <div class="hero__media" data-hero-media>
+      <Image
+        src={heroImage}
+        alt={copy.hero.imageAlt}
+        widths={[640, 960, 1280, 1600, 2000, 2400]}
+        sizes="100vw"
+        priority
+        class="hero__image"
+      />
+      <div class="hero__scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero__curtains" data-hero-curtains aria-hidden="true">
+      <div class="hero__panel hero__panel--left"></div>
+      <div class="hero__panel hero__panel--right"></div>
+    </div>
+
+    <div class="hero__webgl" aria-hidden="true">
+      <HeroCurtain client:webgl />
+    </div>
+
+    <div class="hero__veil" aria-hidden="true"></div>
+
+    <div class="hero__content" data-hero-content>
+      <div class="shell">
+        <h1 class="hero__title">
+          <span class="hero__line">{copy.hero.titleLine1}</span>
+          <span class="hero__line">{copy.hero.titleLine2}</span>
+        </h1>
+        <p class="hero__subtitle">{copy.hero.subtitle}</p>
+        <div class="hero__actions">
+          <a class="btn btn-primary" href={anchor(locale, 'collections')}>
+            {copy.hero.ctaPrimary}
+          </a>
+          <a class="btn btn-outline" href={anchor(locale, 'dealers')}>
+            {copy.hero.ctaSecondary}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <p class="hero__cue" data-hero-cue>
+      <span>{copy.hero.scrollCue}</span>
+      <span class="hero__cue-line" aria-hidden="true"></span>
+    </p>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/hero';
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    height: 220vh;
+    background-color: var(--color-charcoal);
+    --curtain-open: 0;
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      height: 165vh;
+    }
+  }
+
+  .hero__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    color: var(--color-ivory);
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    transform: scale(1.08);
+    will-change: transform;
+  }
+
+  .hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 65% 50%;
+  }
+
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(26 22 19 / 0.35) 0%, transparent 50%);
+  }
+
+  /* Metin okunabilirligi: perde katmaninin ustunde, metnin altinda */
+  .hero__veil {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        100deg,
+        rgb(26 22 19 / 0.72) 0%,
+        rgb(26 22 19 / 0.46) 38%,
+        rgb(26 22 19 / 0.08) 72%,
+        transparent 100%
+      ),
+      linear-gradient(to top, rgb(26 22 19 / 0.45) 0%, transparent 40%);
+  }
+
+  @media (max-width: 767px) {
+    .hero__veil {
+      background: linear-gradient(
+        to top,
+        rgb(26 22 19 / 0.8) 0%,
+        rgb(26 22 19 / 0.55) 45%,
+        rgb(26 22 19 / 0.15) 80%,
+        transparent 100%
+      );
+    }
+  }
+
+  /* Perde katmani: WebGL gelene kadar CSS tul dokusu (T0 fallback ile ayni davranis) */
+  .hero__curtains {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero__panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 58%;
+    background-image:
+      linear-gradient(to bottom, rgb(255 252 246 / 0.16) 0%, rgb(246 241 233 / 0.05) 100%),
+      repeating-linear-gradient(
+        90deg,
+        rgb(246 241 233 / 0.42) 0px,
+        rgb(246 241 233 / 0.14) 14px,
+        rgb(246 241 233 / 0.5) 30px,
+        rgb(246 241 233 / 0.14) 46px
+      );
+    backdrop-filter: blur(2.5px) saturate(108%);
+    will-change: transform;
+    transition: none;
+  }
+
+  .hero__panel--left {
+    left: -4%;
+    transform-origin: left center;
+    transform: translate3d(calc(var(--curtain-open) * -62%), 0, 0)
+      scaleX(calc(1 - 0.45 * var(--curtain-open)));
+    mask-image: linear-gradient(to right, black 82%, transparent 100%);
+  }
+
+  .hero__panel--right {
+    right: -4%;
+    transform-origin: right center;
+    transform: translate3d(calc(var(--curtain-open) * 62%), 0, 0)
+      scaleX(calc(1 - 0.45 * var(--curtain-open)));
+    mask-image: linear-gradient(to left, black 82%, transparent 100%);
+  }
+
+  /* WebGL perde hazir olunca CSS perdenin yerini yumusakca alir */
+  .hero__webgl {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 900ms var(--ease-editorial);
+  }
+
+  .hero__webgl :global(.hero-webgl) {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero[data-webgl-ready] .hero__webgl {
+    opacity: 1;
+  }
+
+  .hero__curtains {
+    transition: opacity 900ms var(--ease-editorial);
+  }
+
+  .hero[data-webgl-ready] .hero__curtains {
+    opacity: 0;
+  }
+
+  .hero__content {
+    position: absolute;
+    inset-inline: 0;
+    bottom: clamp(5rem, 14vh, 9rem);
+    will-change: transform, opacity;
+  }
+
+  .hero__title {
+    font-size: clamp(2.5rem, 6.2vw, 6.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+
+  .hero__line {
+    display: block;
+  }
+
+  .hero__subtitle {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    max-width: 44ch;
+    font-size: var(--text-lead);
+    color: color-mix(in srgb, var(--color-ivory) 88%, transparent);
+  }
+
+  .hero__actions {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .hero__cue {
+    position: absolute;
+    right: var(--spacing-gutter);
+    bottom: clamp(5rem, 14vh, 9rem);
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ivory) 70%, transparent);
+  }
+
+  @media (min-width: 1024px) {
+    .hero__cue {
+      display: flex;
+    }
+  }
+
+  .hero__cue-line {
+    display: block;
+    width: 4rem;
+    height: 1px;
+    background-color: currentColor;
+    transform-origin: right;
+    animation: cue 2.8s var(--ease-editorial) infinite;
+  }
+
+  @keyframes cue {
+    0%,
+    100% {
+      transform: scaleX(0.35);
+      opacity: 0.4;
+    }
+    50% {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero {
+      height: 100svh;
+      --curtain-open: 0.5;
+    }
+
+    .hero__media {
+      transform: none;
+    }
+
+    .hero__cue-line {
+      animation: none;
+    }
+  }
+</style>

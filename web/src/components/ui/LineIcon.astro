@@ -1,0 +1,52 @@
+---
+interface Props {
+  name: 'weave' | 'pin' | 'thread' | 'consult';
+  class?: string | undefined;
+}
+
+const { name: icon, class: className = '' } = Astro.props;
+---
+
+<svg
+  class={`line-icon ${className}`.trim()}
+  viewBox="0 0 32 32"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {icon === 'weave' && (
+    <Fragment>
+      <path d="M4 10h24M4 16h24M4 22h24" />
+      <path d="M10 4v24M16 4v24M22 4v24" opacity="0.45" />
+    </Fragment>
+  )}
+  {icon === 'pin' && (
+    <Fragment>
+      <path d="M16 28s9-8.4 9-14.6A9 9 0 0 0 7 13.4C7 19.6 16 28 16 28Z" />
+      <circle cx="16" cy="13.2" r="3.2" />
+    </Fragment>
+  )}
+  {icon === 'thread' && (
+    <Fragment>
+      <path d="M5 23c4-6 8 6 12 0s6-12 10-14" />
+      <path d="M5 9c3.5 0 6 1.4 7.5 3.4" opacity="0.45" />
+    </Fragment>
+  )}
+  {icon === 'consult' && (
+    <Fragment>
+      <path d="M6 7h20v13H14l-8 6V7Z" />
+      <path d="M12 12h8M12 16h5" opacity="0.6" />
+    </Fragment>
+  )}
+</svg>
+
+<style>
+  .line-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+</style>

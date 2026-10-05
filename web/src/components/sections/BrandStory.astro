@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import fabricMacro from '../../assets/images/story/fabric-macro.jpg';
+import { sectionAnchors } from '../../i18n/routes';
+import type { Locale } from '../../i18n/ui';
+import { t } from '../../i18n/utils';
+import Eyebrow from '../ui/Eyebrow.astro';
+import RevealText from '../ui/RevealText.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+---
+
+<section id={sectionAnchors.about[locale]} class="story">
+  <div class="shell story__grid">
+    <div class="story__text">
+      <Eyebrow as="h2">{copy.story.eyebrow}</Eyebrow>
+      <RevealText as="blockquote" text={copy.story.quote} class="story__quote" />
+      <p class="story__body" data-reveal="fade">
+        {copy.story.body}
+      </p>
+    </div>
+
+    <figure class="story__figure" data-reveal="mask">
+      <div data-parallax="0.16">
+        <Image
+          src={fabricMacro}
+          alt={copy.story.imageAlt}
+          widths={[480, 720, 960, 1280]}
+          sizes="(min-width: 1024px) 38vw, 88vw"
+          loading="lazy"
+          class="story__image"
+        />
+      </div>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .story {
+    padding-block: var(--spacing-section);
+    background-color: var(--color-ivory);
+  }
+
+  .story__grid {
+    display: grid;
+    gap: clamp(3rem, 8vw, 7rem);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .story__grid {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+
+  .story__quote {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    font-family: var(--font-display);
+    font-size: clamp(1.875rem, 4.2vw, 3.75rem);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    max-width: 20ch;
+  }
+
+  .story__body {
+    margin-top: clamp(2rem, 3vw, 2.75rem);
+    max-width: 46ch;
+    font-size: var(--text-lead);
+    color: var(--color-charcoal-soft);
+  }
+
+  .story__figure {
+    overflow: hidden;
+  }
+
+  .story__image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+</style>

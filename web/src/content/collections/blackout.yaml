@@ -1,0 +1,9 @@
+order: 3
+category: blackout
+cover: ../../assets/images/collections/blackout.jpg
+name:
+  tr: 'Blackout Perdeler'
+  en: 'Blackout Curtains'
+description:
+  tr: 'Işığı tamamen kesen, dinlenmek için tasarlanmış perdeler.'
+  en: 'Full light control, designed for rooms made for rest.'

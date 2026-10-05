@@ -1,0 +1,198 @@
+services:
+  api:
+    build:
+      context: .
+      target: build
+    command: npm run dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - storage:/app/storage
+    environment: &app-env
+      NODE_ENV: development
+      PORT: 3000
+      APP_NAME: Backend Starter Kit
+      APP_URL: http://localhost:3000
+      WEB_APP_URL: http://localhost:5173
+      API_PREFIX: /api
+      API_VERSION: v1
+      TRUST_PROXY: 'true'
+      DATABASE_URL: postgresql://backend:backend@postgres:5432/backend_starter
+      DATABASE_MAX_CONNECTIONS: 10
+      DATABASE_SSL: 'false'
+      REDIS_URL: redis://redis:6379
+      REDIS_PREFIX: backend-starter
+      JWT_ISSUER: backend-starter-kit
+      JWT_AUDIENCE: backend-starter-clients
+      JWT_ACCESS_SECRET: development-only-access-secret-change-before-production
+      JWT_REFRESH_SECRET: development-only-refresh-secret-change-before-production
+      CSRF_SECRET: development-only-csrf-secret-change-before-production
+      ENCRYPTION_KEY: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+      CORS_ORIGINS: http://localhost:5173
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+      SMTP_FROM: Backend Starter Kit <noreply@example.test>
+      STORAGE_PROVIDER: s3
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
+      AWS_REGION: us-east-1
+      AWS_S3_BUCKET: backend-starter
+      AWS_S3_ENDPOINT: http://minio:9000
+      AWS_S3_FORCE_PATH_STYLE: 'true'
+      MAX_UPLOAD_BYTES: 10485760
+      DOCS_ENABLED: 'true'
+      QUEUE_DASHBOARD_ENABLED: 'true'
+      WEBHOOK_HMAC_SECRET: development-only-webhook-secret-change-before-production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+      minio-init:
+        condition: service_completed_successfully
+    ports:
+      - '${API_HOST_PORT:-3002}:3000'
+
+  worker:
+    build:
+      context: .
+      target: build
+    command: npm run worker:dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment: *app-env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+
+  migrate:
+    build:
+      context: .
+      target: build
+    command: npm run db:migrate
+    working_dir: /app
+    environment: *app-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: backend
+      POSTGRES_PASSWORD: backend
+      POSTGRES_DB: backend_starter
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U backend -d backend_starter']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - '${POSTGRES_HOST_PORT:-5434}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:8-alpine
+    command: ['redis-server', '--appendonly', 'yes', '--maxmemory-policy', 'noeviction']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - '${REDIS_HOST_PORT:-6382}:6379'
+    volumes:
+      - redis_data:/data
+
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports:
+      - '8025:8025'
+      - '1025:1025'
+
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - minio_data:/data
+
+  minio-init:
+    image: minio/mc:RELEASE.2025-07-21T05-28-08Z
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      [
+        'until mc alias set local http://minio:9000 minioadmin minioadmin; do sleep 2; done; mc mb --ignore-existing local/backend-starter',
+      ]
+    depends_on:
+      - minio
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    command: ['--config.file=/etc/prometheus/prometheus.yml']
+    volumes:
+      - ./ops/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - '9090:9090'
+
+  loki:
+    image: grafana/loki:3.5.3
+    command: ['-config.file=/etc/loki/local-config.yaml']
+    ports:
+      - '3100:3100'
+
+  alloy:
+    image: grafana/alloy:v1.11.2
+    command: ['run', '/etc/alloy/config.alloy', '--server.http.listen-addr=0.0.0.0:12345']
+    volumes:
+      - ./ops/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:12.0.2
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: 'false'
+    volumes:
+      - ./ops/grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana_data:/var/lib/grafana
+    ports:
+      - '3001:3000'
+    depends_on:
+      - prometheus
+      - loki
+
+  nginx:
+    image: nginx:1.29-alpine
+    volumes:
+      - ./ops/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - '8080:80'
+    depends_on:
+      - api
+
+volumes:
+  node_modules:
+  postgres_data:
+  redis_data:
+  minio_data:
+  grafana_data:
+  storage:

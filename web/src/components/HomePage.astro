@@ -1,0 +1,26 @@
+---
+import type { Locale } from '../i18n/ui';
+import BrandStory from './sections/BrandStory.astro';
+import Collections from './sections/Collections.astro';
+import DealerCta from './sections/DealerCta.astro';
+import DealerNetwork from './sections/DealerNetwork.astro';
+import FabricExperience from './sections/FabricExperience.astro';
+import Hero from './sections/Hero.astro';
+import Inspiration from './sections/Inspiration.astro';
+import WhyUs from './sections/WhyUs.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Hero locale={locale} />
+<BrandStory locale={locale} />
+<Collections locale={locale} />
+<FabricExperience locale={locale} />
+<DealerNetwork locale={locale} />
+<WhyUs locale={locale} />
+<Inspiration locale={locale} />
+<DealerCta locale={locale} />

@@ -1,0 +1,9 @@
+order: 1
+image: ../../assets/images/inspiration/salon.jpg
+span: tall
+alt:
+  tr: 'Tül ve fon perdenin birlikte kullanıldığı geniş pencereli bir salon'
+  en: 'A living room with wide windows dressed in sheers and drapery'
+space:
+  tr: 'Salon'
+  en: 'Living Room'

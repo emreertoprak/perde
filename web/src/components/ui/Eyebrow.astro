@@ -1,0 +1,15 @@
+---
+interface Props {
+  class?: string | undefined;
+  withRule?: boolean;
+  /** Bolumun tek basligi eyebrow ise h2 olarak render edilir (belge yapisi icin). */
+  as?: 'p' | 'h2';
+}
+
+const { class: className = '', withRule = true, as: Tag = 'p' } = Astro.props;
+---
+
+<Tag class={`eyebrow flex items-center gap-4 ${className}`.trim()} data-reveal="fade">
+  {withRule && <span class="rule inline-block w-10 shrink-0" aria-hidden="true" />}
+  <slot />
+</Tag>

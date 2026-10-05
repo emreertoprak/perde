@@ -1,0 +1,125 @@
+---
+import { provinceByPlate } from '../../data/geo/provinces';
+import { turkeyMap } from '../../data/geo/turkey-map';
+
+interface Props {
+  dealerCounts: Record<number, number>;
+  label: string;
+  hint: string;
+}
+
+const { dealerCounts, label, hint } = Astro.props;
+
+const markerRadius = (count: number): number => 2.2 + Math.min(count, 8) * 0.5;
+---
+
+<figure class="map">
+  <svg
+    viewBox={`0 0 ${turkeyMap.width} ${turkeyMap.height}`}
+    role="img"
+    aria-label={label}
+    data-turkey-map
+  >
+    <g class="map__provinces">
+      {turkeyMap.provinces.map((province) => {
+        const count = dealerCounts[province.plate] ?? 0;
+        return (
+          <path
+            d={province.d}
+            class="province"
+            data-plate={province.plate}
+            data-region={provinceByPlate.get(province.plate)?.region}
+            data-has-dealers={count > 0 ? '' : undefined}
+          />
+        );
+      })}
+    </g>
+    <g class="map__markers">
+      {turkeyMap.provinces
+        .filter((province) => (dealerCounts[province.plate] ?? 0) > 0)
+        .map((province) => (
+          <circle
+            class="marker"
+            cx={province.centroid[0]}
+            cy={province.centroid[1]}
+            r={markerRadius(dealerCounts[province.plate] ?? 0)}
+            data-plate={province.plate}
+            data-region={provinceByPlate.get(province.plate)?.region}
+          />
+        ))}
+    </g>
+  </svg>
+  <figcaption class="map__hint">{hint}</figcaption>
+</figure>
+
+<script>
+  import '../../scripts/turkey-map';
+</script>
+
+<style>
+  .map {
+    width: 100%;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .province {
+    fill: color-mix(in srgb, var(--color-sand) 55%, var(--color-ivory));
+    stroke: color-mix(in srgb, var(--color-taupe) 55%, transparent);
+    stroke-width: 0.55;
+    transition:
+      fill 450ms var(--ease-editorial),
+      stroke 450ms var(--ease-editorial);
+  }
+
+  .province[data-has-dealers] {
+    fill: var(--color-sand);
+  }
+
+  .province[data-active] {
+    fill: color-mix(in srgb, var(--color-taupe) 42%, var(--color-sand));
+  }
+
+  .province[data-selected] {
+    fill: var(--color-burgundy);
+    stroke: var(--color-burgundy);
+  }
+
+  .province[data-has-dealers] {
+    cursor: pointer;
+  }
+
+  .marker {
+    fill: var(--color-burgundy);
+    opacity: 0.32;
+    pointer-events: none;
+    transition: opacity 450ms var(--ease-editorial);
+  }
+
+  .marker[data-active] {
+    opacity: 0.95;
+  }
+
+  .marker[data-selected] {
+    opacity: 1;
+    fill: var(--color-gold);
+  }
+
+  .map__hint {
+    margin-top: 1.25rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-charcoal-soft);
+  }
+
+  @media (pointer: coarse) {
+    .map__hint {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import { Image } from 'astro:assets';
+import light1 from '../../assets/images/fabric/light-1.jpg';
+import light2 from '../../assets/images/fabric/light-2.jpg';
+import light3 from '../../assets/images/fabric/light-3.jpg';
+import type { Locale } from '../../i18n/ui';
+import { t } from '../../i18n/utils';
+import Eyebrow from '../ui/Eyebrow.astro';
+import RevealText from '../ui/RevealText.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+---
+
+<section class="fabric">
+  <div class="shell fabric__grid">
+    <figure class="fabric__figure fabric__figure--a" data-reveal="mask">
+      <div data-parallax="0.12">
+        <Image
+          src={light1}
+          alt={copy.story.imageAlt}
+          widths={[360, 540, 760]}
+          sizes="(min-width: 1024px) 26vw, 60vw"
+          loading="lazy"
+          class="fabric__image"
+        />
+      </div>
+    </figure>
+
+    <div class="fabric__text">
+      <Eyebrow class="fabric__eyebrow">{copy.fabric.eyebrow}</Eyebrow>
+      <RevealText as="h2" text={copy.fabric.title} class="fabric__title" />
+      <p class="fabric__body" data-reveal="fade">
+        {copy.fabric.body}
+      </p>
+    </div>
+
+    <figure class="fabric__figure fabric__figure--b" data-reveal="mask">
+      <div data-parallax="0.22">
+        <Image
+          src={light2}
+          alt={copy.fabric.body}
+          widths={[320, 480, 640]}
+          sizes="(min-width: 1024px) 22vw, 50vw"
+          loading="lazy"
+          class="fabric__image"
+        />
+      </div>
+    </figure>
+  </div>
+
+  <figure class="fabric__wide" data-reveal="mask">
+    <Image
+      src={light3}
+      alt={copy.fabric.title}
+      widths={[768, 1200, 1600, 2000, 2400]}
+      sizes="100vw"
+      loading="lazy"
+      class="fabric__wide-image"
+    />
+  </figure>
+</section>
+
+<style>
+  .fabric {
+    padding-top: var(--spacing-section);
+    background-color: var(--color-charcoal);
+    color: var(--color-ivory);
+  }
+
+  .fabric__grid {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .fabric__grid {
+      grid-template-columns: 0.9fr 1.2fr 0.7fr;
+    }
+  }
+
+  .fabric__figure {
+    overflow: hidden;
+  }
+
+  .fabric__figure--b {
+    margin-top: clamp(0rem, 6vw, 5rem);
+  }
+
+  .fabric__image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .fabric__figure--a .fabric__image {
+    aspect-ratio: 3 / 4;
+  }
+
+  .fabric__figure--b .fabric__image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .fabric__eyebrow {
+    color: var(--color-gold-light);
+  }
+
+  .fabric__title {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: var(--text-h2);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+  }
+
+  .fabric__body {
+    margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
+    max-width: 42ch;
+    font-size: var(--text-lead);
+    color: color-mix(in srgb, var(--color-ivory) 78%, transparent);
+  }
+
+  .fabric__wide {
+    margin-top: clamp(4rem, 10vw, 8rem);
+    overflow: hidden;
+  }
+
+  .fabric__wide-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+</style>

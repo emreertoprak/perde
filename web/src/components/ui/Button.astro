@@ -1,0 +1,21 @@
+---
+interface Props {
+  href?: string | undefined;
+  variant?: 'primary' | 'outline';
+  class?: string | undefined;
+  dataAttrs?: Record<string, string> | undefined;
+}
+
+const { href, variant = 'primary', class: className = '', dataAttrs = {} } = Astro.props;
+const classes = `btn ${variant === 'primary' ? 'btn-primary' : 'btn-outline'} ${className}`.trim();
+---
+
+{href ? (
+  <a class={classes} href={href} {...dataAttrs}>
+    <slot />
+  </a>
+) : (
+  <button class={classes} type="button" {...dataAttrs}>
+    <slot />
+  </button>
+)}

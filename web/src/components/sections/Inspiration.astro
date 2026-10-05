@@ -1,0 +1,113 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { sectionAnchors } from '../../i18n/routes';
+import type { Locale } from '../../i18n/ui';
+import { t } from '../../i18n/utils';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+const items = (await getCollection('inspiration')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id={sectionAnchors.inspiration[locale]} class="inspiration">
+  <div class="shell">
+    <SectionHeading
+      eyebrow={copy.inspiration.eyebrow}
+      title={copy.inspiration.title}
+      lead={copy.inspiration.body}
+    />
+
+    <ul class="inspiration__grid">
+      {items.map((item) => (
+        <li class={`tile tile--${item.data.span}`} data-reveal="mask">
+          <figure>
+            <Image
+              src={item.data.image}
+              alt={item.data.alt[locale]}
+              widths={[360, 540, 760, 1000]}
+              sizes="(min-width: 1024px) 32vw, 88vw"
+              loading="lazy"
+              class="tile__image"
+            />
+            <figcaption class="tile__caption">{item.data.space[locale]}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .inspiration {
+    padding-block: var(--spacing-section);
+    background-color: var(--color-cream);
+  }
+
+  .inspiration__grid {
+    margin-top: clamp(3rem, 7vw, 6rem);
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  @media (min-width: 768px) {
+    .inspiration__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .tile--tall {
+      grid-column: span 4;
+    }
+
+    .tile--wide {
+      grid-column: span 5;
+    }
+
+    .tile--square {
+      grid-column: span 3;
+    }
+
+    /* asimetri: bazi kutular alt hizadan baslar */
+    .tile:nth-child(2) {
+      margin-top: clamp(2rem, 6vw, 5rem);
+    }
+
+    .tile:nth-child(4) {
+      margin-top: clamp(1rem, 4vw, 3.5rem);
+    }
+
+    .tile:nth-child(7) {
+      margin-top: clamp(2rem, 5vw, 4rem);
+    }
+  }
+
+  .tile figure {
+    overflow: hidden;
+    background-color: var(--color-sand);
+  }
+
+  .tile__image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 1200ms var(--ease-editorial);
+  }
+
+  .tile:hover .tile__image {
+    transform: scale(1.035);
+  }
+
+  .tile__caption {
+    margin-top: 1rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-charcoal-soft);
+  }
+</style>

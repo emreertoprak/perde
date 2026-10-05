@@ -1,0 +1,83 @@
+---
+import Footer from '../components/layout/Footer.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { homeAlternates, t } from '../i18n/utils';
+
+/** Statik host tek 404 sunar: sayfa iki dilli. */
+const locale = 'tr' as const;
+const tr = t('tr');
+const en = t('en');
+const alternates = homeAlternates();
+---
+
+<BaseLayout
+  locale={locale}
+  title={tr.notFound.title}
+  description={tr.notFound.body}
+  path="/404"
+  alternates={alternates}
+  noindex
+>
+  <Navbar slot="header" locale={locale} alternates={alternates} solid />
+
+  <section class="notfound">
+    <div class="shell notfound__inner">
+      <p class="eyebrow">404</p>
+      <h1 class="notfound__title">{tr.notFound.title}</h1>
+      <p class="notfound__body">{tr.notFound.body}</p>
+      <a class="btn btn-primary notfound__link" href="/">
+        {tr.notFound.home}
+      </a>
+
+      <div class="rule notfound__rule" role="presentation"></div>
+
+      <h2 class="notfound__title notfound__title--en" lang="en">
+        {en.notFound.title}
+      </h2>
+      <p class="notfound__body" lang="en">
+        {en.notFound.body}
+      </p>
+      <a class="btn btn-outline notfound__link" href="/en" lang="en" hreflang="en">
+        {en.notFound.home}
+      </a>
+    </div>
+  </section>
+
+  <Footer slot="footer" locale={locale} />
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-top: clamp(9rem, 20vh, 13rem);
+    padding-bottom: var(--spacing-section);
+  }
+
+  .notfound__inner {
+    max-width: 44rem;
+  }
+
+  .notfound__title {
+    margin-top: 1.5rem;
+    font-size: clamp(2.25rem, 6vw, 4.25rem);
+    line-height: 1.05;
+  }
+
+  .notfound__title--en {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .notfound__body {
+    margin-top: 1.25rem;
+    font-size: var(--text-lead);
+    color: var(--color-charcoal-soft);
+  }
+
+  .notfound__link {
+    margin-top: 2rem;
+  }
+
+  .notfound__rule {
+    margin-block: clamp(3rem, 6vw, 4.5rem);
+  }
+</style>

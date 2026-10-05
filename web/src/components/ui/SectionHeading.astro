@@ -1,0 +1,30 @@
+---
+import Eyebrow from './Eyebrow.astro';
+import RevealText from './RevealText.astro';
+
+interface Props {
+  eyebrow?: string | undefined;
+  title: string;
+  lead?: string | undefined;
+  class?: string | undefined;
+  titleClass?: string | undefined;
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  class: className = '',
+  titleClass = 'text-h2 mt-8 max-w-[18ch]',
+} = Astro.props;
+---
+
+<div class={className}>
+  {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+  <RevealText as="h2" text={title} class={titleClass} />
+  {lead && (
+    <p class="text-lead text-charcoal-soft mt-8 max-w-[52ch]" data-reveal="fade">
+      {lead}
+    </p>
+  )}
+</div>

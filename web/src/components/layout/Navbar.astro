@@ -1,0 +1,211 @@
+---
+import { site } from '../../data/site';
+import { SECTION_KEYS, sectionAnchors } from '../../i18n/routes';
+import type { Locale } from '../../i18n/ui';
+import { anchor, homePath, otherLocale, t } from '../../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  alternates: Record<Locale, string>;
+  solid?: boolean;
+}
+
+const { locale, alternates, solid = false } = Astro.props;
+const copy = t(locale);
+const other = otherLocale(locale);
+
+const links = SECTION_KEYS.map((key) => ({
+  key,
+  href: anchor(locale, key),
+  id: sectionAnchors[key][locale],
+  label: copy.nav[key],
+}));
+
+/** Dil degistirirken aktif bolum anchor'i karsiligina cevrilir. */
+const anchorMap = Object.fromEntries(
+  SECTION_KEYS.map((key) => [sectionAnchors[key][locale], sectionAnchors[key][other]]),
+);
+---
+
+<header class="navbar" data-navbar data-solid={solid ? '' : undefined}>
+  <div class="shell flex items-center justify-between gap-6 py-5">
+    <a class="wordmark" href={homePath(locale)}>
+      {site.brand.name}
+    </a>
+
+    <nav class="hidden items-center gap-9 lg:flex" aria-label={copy.nav.menu}>
+      {links.map((link) => (
+        <a class="nav-link" href={link.href} data-nav-link={link.id}>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a
+        class="lang-switch"
+        href={alternates[other]}
+        hreflang={other}
+        lang={other}
+        data-lang-switch
+        data-anchor-map={JSON.stringify(anchorMap)}
+        aria-label={`${copy.nav.languageLabel}: ${other.toUpperCase()}`}
+      >
+        {other.toUpperCase()}
+      </a>
+
+      <a class="btn btn-outline hidden sm:inline-flex" href={anchor(locale, 'dealers')}>
+        {copy.nav.cta}
+      </a>
+
+      <button class="menu-button lg:hidden" popovertarget="site-menu" aria-label={copy.nav.menu}>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="site-menu" popover class="site-menu">
+  <div class="shell flex h-full flex-col py-6">
+    <div class="flex items-center justify-between">
+      <span class="wordmark text-charcoal">{site.brand.name}</span>
+      <button class="menu-close" popovertarget="site-menu" popovertargetaction="hide">
+        {copy.nav.close}
+      </button>
+    </div>
+    <nav class="mt-16 flex flex-col gap-7" aria-label={copy.nav.menu}>
+      {links.map((link) => (
+        <a class="menu-link" href={link.href}>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+    <a class="btn btn-primary mt-auto w-full" href={anchor(locale, 'dealers')}>
+      {copy.nav.cta}
+    </a>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/navbar';
+</script>
+
+<style>
+  .navbar {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 50;
+    --nav-fg: var(--color-ivory);
+    color: var(--nav-fg);
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 500ms var(--ease-editorial),
+      color 500ms var(--ease-editorial),
+      border-color 500ms var(--ease-editorial);
+  }
+
+  .navbar[data-scrolled],
+  .navbar[data-solid] {
+    --nav-fg: var(--color-charcoal);
+    background-color: color-mix(in srgb, var(--color-ivory) 84%, transparent);
+    border-bottom-color: color-mix(in srgb, var(--color-taupe) 40%, transparent);
+    backdrop-filter: blur(14px) saturate(115%);
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+  }
+
+  .nav-link,
+  .lang-switch {
+    position: relative;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.4rem;
+    height: 1px;
+    width: 100%;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 400ms var(--ease-editorial);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current='true']::after {
+    transform: scaleX(1);
+  }
+
+  .lang-switch {
+    opacity: 0.75;
+  }
+
+  .lang-switch:hover {
+    opacity: 1;
+  }
+
+  .menu-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 2.75rem;
+    height: 2.75rem;
+    align-items: flex-end;
+  }
+
+  .menu-button span {
+    display: block;
+    height: 1px;
+    background-color: currentColor;
+  }
+
+  .menu-button span:first-child {
+    width: 1.75rem;
+  }
+
+  .menu-button span:last-child {
+    width: 1.1rem;
+  }
+
+  .site-menu {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: var(--color-ivory);
+    color: var(--color-charcoal);
+  }
+
+  .site-menu::backdrop {
+    background-color: rgb(42 38 34 / 0.45);
+  }
+
+  .menu-close {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .menu-link {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 9vw, 3rem);
+    line-height: 1.1;
+  }
+</style>

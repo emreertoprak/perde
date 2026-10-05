@@ -1,0 +1,9 @@
+order: 7
+image: ../../assets/images/inspiration/banyo.jpg
+span: square
+alt:
+  tr: 'Banyoda nem dengeli stor perde uygulaması'
+  en: 'A moisture-tolerant roller blind in a bathroom'
+space:
+  tr: 'Banyo'
+  en: 'Bathroom'
